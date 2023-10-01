@@ -10,6 +10,7 @@ export const RuleSet = () => {
     const [rules, setRules] = useState<string[][]>([["S", ""]]);
     const [word, setWord] = useState("");
     const [selectedCell, setSelectedCell] = useState<null | number>(null);
+    const [reset, setReset] = useState(true);
 
     useEffect(() => {
         const str = localStorage.getItem("data");
@@ -46,7 +47,13 @@ export const RuleSet = () => {
             setRules(newRules);
         }
     };
-
+    const clear = () => {
+        localStorage.clear();
+        const clearRules: string[][] = [];
+        rules.forEach(() => clearRules.push(["", ""]));
+        setRules(clearRules);
+        setReset((oldValue) => !oldValue);
+    };
     const onBlurHandler = (e: ChangeEvent) => {
         const newWord = (e.target as HTMLInputElement).value;
         setWord(newWord);
@@ -69,7 +76,7 @@ export const RuleSet = () => {
         <div className="container-fluid">
             <div className="container mb-4">
                 <div className="row">
-                    <div className="col-sm-12 col-md-6 mb-sm-2 mb-md-0">
+                    <div className="col-sm-12 col-md-5 mb-sm-2 mb-md-0">
                         <div className="form-group">
                             <label
                                 htmlFor="nrOfRules"
@@ -89,8 +96,13 @@ export const RuleSet = () => {
                             />
                         </div>
                     </div>
-
-                    <div className="col-sm-12 col-md-6">
+                    <button
+                        className="btn btn-primary col-sm-12 col-md-2"
+                        onClick={() => clear()}
+                    >
+                        Clear
+                    </button>
+                    <div className="col-sm-12 col-md-5">
                         <div className="form-group">
                             <label htmlFor="word" className="form-label mx-2">
                                 Word to check:
@@ -108,7 +120,7 @@ export const RuleSet = () => {
                 </div>
             </div>
             <div className="container mb-4">
-                <div className="row g-2">
+                <div className="row g-2" key={reset + ""}>
                     {rules.map((rule, index) => (
                         <div
                             className="col-12 col-md-6 col-xl-4"
