@@ -1,0 +1,16 @@
+.cell {
+    vertical-align: middle;
+}
+
+.cell:hover {
+    cursor: pointer;
+
+    background-color: #b6c0d4 !important;
+    color: white !important;
+}
+
+.cell--clicked {
+    background-color: #5b6476 !important;
+    color: white !important;
+    border: 3px solid #282d37 !important;
+}
